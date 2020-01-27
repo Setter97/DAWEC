@@ -1,0 +1,115 @@
+html {
+    font-family: arial;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    width: 110%;
+    margin-left: -1rem;
+    padding: 0.5rem;
+    box-shadow: 0px 5px 20px grey;
+}
+
+.navbar a {
+    float: left;
+    font-size: 1.2rem;
+    text-align: center;
+    color: grey;
+    margin: 1rem 1rem;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: burlywood;
+}
+strong{
+    color: burlywood;
+}
+body {
+    background-color: grey;
+    margin-top: 4rem;
+}
+
+body div {
+    background-color: white;
+    padding: 1rem;
+    border-top-left-radius: 0.2rem;
+    border-top-right-radius: 0.2rem;
+}
+
+h1 {
+
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    font-size: 20;
+}
+
+p {
+    text-align: justify;
+}
+
+.info {
+    margin: 1rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    text-align: center;
+}
+
+img {
+
+    max-width: 100%;
+}
+
+.imgHP {
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 20%;
+    
+}
+
+.divSobrejo{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.divSobrejo img{
+    margin-right: 4%;
+    
+}
+.main {
+    background-color: white;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.row {
+    display: flex;
+}
+.column {
+    flex: 50%;
+    border: 1px solid;
+    border-color: burlywood;
+    margin: 1rem;
+}
+
+footer {
+    display: flex;
+    background-color: white;
+    border-bottom-left-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+    padding: 2rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+footer p {
+    margin: auto;
+}

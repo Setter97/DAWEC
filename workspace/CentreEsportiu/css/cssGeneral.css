@@ -1,0 +1,16 @@
+footer {
+    display: flex;
+    background-color:rgb(53, 58, 63);
+    padding: 1rem;
+    color:white;
+}
+
+footer p{
+    margin: auto;
+}
+
+footer p a{
+    text-decoration-style: none;
+    text-decoration: none;
+    color: white;
+}

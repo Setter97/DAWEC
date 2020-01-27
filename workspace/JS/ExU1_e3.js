@@ -1,0 +1,20 @@
+var operacion1=10==10;
+var operacion2=10===10;
+var operacion3=10===10.0;
+var operacion4="Laura"=="laura";
+var operacion5="Laura">"laura";
+var operacion6="Laura"<"laura";
+var operacion7="123"==123;
+var operacion8="123"===123;
+var operacion9=parseInt("123")===123;
+alert("operacion1=10==10 ->"+operacion1+"\n"+
+     "operacion2=10===10 ->"+operacion2+"\n"+
+     "operacion3=10===10.0 ->"+operacion3+"\n"+
+     "operacion4=\"Laura\"==\"laura\" ->"+operacion4+"\n"+
+     "operacion5=\"Laura\">\"laura\" ->"+operacion5+"\n"+
+     "operacion6=\"Laura\"<\"laura\" ->"+operacion6+"\n"+
+     "operacion7=\"123\"==123 ->"+operacion7+"\n"+
+     "operacion8=\"123\"===123 ->"+operacion8+"\n"+
+     "operacion9=parseInt(\"123\")===123 ->"+operacion9+"\n"
+     );
+//Joel Serrano

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>U2exercicis</title>
+    <script src="jsGeneral.js"></script>
+</head>
+
+<body>
+    <h1>U2e1</h1>
+    <label for="U2e1">Introdueix un dia:</label>
+    <input name="U2e1" type="datetime" id="U2e1" placeholder="yy/mm/dd" />
+    <button type="button" onclick="calculaDies()">Calcula</button>
+
+
+    <h1>U2e2</h1>
+    <label for="U2e2">Introdueix el mes i el dia del teu neixament:</label>
+    <input name="U2e2" type="datetime" id="U2e2" placeholder="mm/dd" />
+    <button type="button" onclick="calculaDomingos()">Calcula</button>
+
+    <h1>U2e3</h1>
+    <label for="U2e3">Introdueix una data</label>
+    <input name="U2e3" type="datetime" id="U2e3" placeholder="mm/dd" />
+    <button type="button" onclick="formatData()">Mostra</button>
+
+    <h1>U2e4</h1>
+    <label for="U2e4">Com vols que es mostri l'hora actual?</label><br>
+
+    <input type="radio" name="hora" value="detallada" id="detallada" checked> Detallada<br>
+    <input type="radio" name="hora" value="simplificada" id="simplificada"> Simplificada<br>
+
+    <button type="button" onclick="mostraHora()">Mostra</button>
+<br>
+<br>
+    <h1>U2e5</h1>
+
+    <label for="U2e5">Math</label><br>
+    <input type="number" name="U2e5"  id="U2e5"><br>
+    
+
+    <button type="button" onclick="math()">Calcula</button>
+
+    <h1>U2e6</h1>
+
+    <label for="figura">Figures:</label><br><br>
+   
+    
+    <input type="radio" name="figura" value="circulo" id="circulo" checked> Circulo<br>
+    <input type="radio" name="figura" value="rectangulo" id="rectangulo"> Rectangulo<br>
+    <input type="radio" name="figura" value="triangulo" id="triangulo"> Triangulo<br>
+    <input type="radio" name="figura" value="cuadrado" id="cuadrado"> Cuadrado<br>
+    <input type="radio" name="figura" value="trapezoide" id="trapezoide"> Trapezoide<br>
+    <br>
+    <button type="button" onclick="figures()">Calcula</button>
+
+    <h1>U2e7</h1>
+    <button type="button" onclick="number()">Numero</button>
+
+    <h1>U2e8</h1>
+    <button type="button" onclick="nombreapellidos()">Nombre Apellidos</button>
+</body>
+
+</html>
