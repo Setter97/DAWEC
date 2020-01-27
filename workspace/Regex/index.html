@@ -18,13 +18,15 @@
                 <input name="destinatario" id="destinatario">
                 <br>
                 <label for="gramo">Gramo: </label>
-                <input name="gramo" id="gramo">
+                <input name="gramo" type="number" id="gramo" min=100 max=5000>
                 <br>
                 <label for="composicion">Composicion: </label>
                 <input name="composicion" id="composicion">
                 <br>
-                <label for="cuenta">Composicion: </label>
+                <label for="cuenta">Cuenta: </label>
                 <input name="cuenta" id="cuenta">
+                <br>
+                <button type="button" onclick="comprueba()">Envia</button>
             </form>
         </header>
     </body>
