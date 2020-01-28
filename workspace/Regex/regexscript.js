@@ -31,7 +31,7 @@ function comprueba(){
 
     //Cuenta
     let cuenta=document.getElementById("cuenta").value
-    let regexCuenta = new RegExp('^([a-z]{2})([0-9]{2})-[0-9]{12}-([0-9]{2})$');
+    let regexCuenta = new RegExp('^([a-z]{2})([0-9]{2})-([0-9]{6})([0-9]{6})-([0-9]{2})$');
 
     if(!regexCuenta.test(cuenta)){
         alert("Error en cuenta ")
@@ -47,7 +47,22 @@ function comprueba(){
         if(suma!=tag[2]){
             alert("Error en la cuenta")
         }else{
-            alert("Todo correcto")
+            let num1=tag[3]
+            let num2=tag[4]
+            let suma1=0;
+            let suma2=0;
+            for(let i=0;i<6;i++){
+                suma1=suma1+parseInt(num1.charAt(i))
+                suma2=suma2+parseInt(num2.charAt(i))
+            }
+
+            let resultado=Math.floor(suma1/6)+""+Math.floor(suma2/6)
+            
+            if(tag[5]!=resultado){
+                alert("Error en la cuenta")
+            }else{
+                alert("Cuenta correcta")
+            }
         }
     }
 
