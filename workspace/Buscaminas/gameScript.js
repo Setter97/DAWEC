@@ -1,4 +1,4 @@
-let arrayNumeros=['img/white.png','img/uno.png','img/dos.png','img/tres.png','img/cuatro.png','img/cinco.png','img/seis.png','img/siete.png','img/ocho.png',]
+let arrayNumeros=['img/white.png','img/uno.png','img/dos.png','img/tres.png','img/cuatro.png','img/cinco.png','img/seis.png','img/siete.png','img/ocho.png']
 
 function creaTaula(){
     let columns=parseInt(document.getElementById("columnas").value)
