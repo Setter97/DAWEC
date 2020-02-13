@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $("div").css("margin-left", "100px")
+                if ($("p").text() == "HELLO") {
+                    $("p").css('font-size', '150%')
+                }
+            })
+
+        });
+    </script>
+</head>
+
+<body>
+    <button>Un boton</button>
+    <div style="width:80px;height:80px;background-color:red;">
+        <p>HELLO</p>
+    </div>
+
+
+</body>
+
+</html>

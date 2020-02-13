@@ -4,7 +4,7 @@ for(let i=0;i<2;i++){
     let button=document.createElement('button');
     button.textContent='Esconde div'
     button.addEventListener('click',e=>{
-       $(e).parent().hide();
+       $(button).parent().hide();
     })
     div1.appendChild(button)
     document.body.appendChild(div1);
