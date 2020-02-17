@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+</head>
+
+<body>
+    <div id="content"></div>
+    <p id="p">Hola soc una prova</p>
+</body>
+<script async>
+    let text=$("#p").text()
+    $("#p").mouseenter(function(){
+        this.innerHTML=text.italics()
+    })
+
+    $("#p").mouseleave(function (){
+        this.innerHTML=text
+    })
+
+</script>
+</html>
