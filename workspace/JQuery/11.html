@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+</head>
+
+<body>
+    <form id="form"> 
+        <textarea name="arae" id="area" cols="30" rows="10"></textarea>
+        
+        <div id="count"></div>
+    </form>
+
+</body>
+<script async>
+    $("form textarea").keyup(function (){
+        $("#count").text(this.textLength);
+    })
+</script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="slideshow">
+        <ul class="slider" style="list-style: none;">
+            <li>
+                <img src="img/Amarillo.png">
+            </li>
+            <li>
+                <img src="img/Rojo.png">
+            </li>
+            <li>
+                <img src="img/Rosa.png">
+            </li>
+            <li>
+                <img src="img/Verde.png">
+            </li>
+        </ul>
+
+        <button class="left">Left</button>
+        <button class="right">Right</button>
+
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        let i = 1;
+
+        $('.slider li').hide()
+        $('.slider li:first').show()
+
+        $('.right').click(function () {
+            i++;
+            if (i > 4) {
+                i = 1;
+            }
+            $('.slider li').hide()
+            $(`.slider li:nth-child(${i})`).show()
+        })
+
+        $('.left').click(function () {
+            i--;
+            if (i < 1) {
+                i = 4;
+            }
+            $('.slider li').hide()
+            $(`.slider li:nth-child(${i})`).show()
+        })
+    });
+</script>
+
+</html>

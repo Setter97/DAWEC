@@ -5,23 +5,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
+      
       $("#button1").click(function(){
-        $("#a1").hide();
+       $("a").each(function(){
+          let str=$(this).attr('target')
+          if(str=='_blank'){
+            $(this).hide()
+          }
+        });
       });
 
       $("#button2").click(function(){
-        $("#a2").hide();
+        $("a").each(function(){
+          let str=$(this).attr('target')
+          if(str=='_blink'){
+            $(this).hide()
+          }
+        });
       });
     });
     </script>
 </head>
 
 <body>
-    <a id="a1" href="#">Un enllaç</a>
+    <a href="#" target="_blank">Un enllaç</a>
     <button id='button1'>Ves a l'enllaç </button><br><br>
     
     <br>
-    <a id="a2" href="#">Un enllaç</a>
+    <a href="#" target="_blink">Un enllaç</a>
     <button id='button2'>Amaga</button><br><br>
     
 

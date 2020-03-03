@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script> 
+$(document).ready(function(){
+  $("#start").click(function(){
+    $("div").animate({left: '250px',backgroundColor: "#ffffff"},"slow");
+    $("div").css("background-color", "blue")
+    $("div").animate({top:'-100px'
+},"slow")
+  });
+
+  $("#stop").click(function(){
+      $("div").stop()
+  });
+});
+</script> 
+</head>
+<body>
+
+<button id="start">Start Animation</button>
+<button id="stop">Stop Animation</button>
+
+
+<div style="background:#98bf21;height:100px;width:100px;position:absolute;"></div>
+
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".start").click(function () {
+                var div = $("div");
+                startAnimation();
+
+                function startAnimation() {
+                    div.animate({
+                        height: 300
+                    }, "slow");
+                    div.animate({
+                        width: 300
+                    }, "slow");
+                    div.css("background-color", "blue");
+                    div.animate({
+                        height: 100
+                    }, "slow");
+                    div.animate({
+                        width: 100
+                    }, "slow", startAnimation);
+                }
+            })
+
+            $('.stop').click(function (){
+                $('div').stop();
+                
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <button class="start">Start</button>
+    <button class="stop">Stop</button>
+    <button class="stopAll">Stop All</button>
+    <button class="stopFinish">Stop but finish</button>
+    <div style="width:80px;height:80px;background-color:red;">
+        <p>HELLO</p>
+    </div>
+</body>
+
+</html>
