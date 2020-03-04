@@ -147,27 +147,58 @@ function contaVotsColegis(){
     alert(suma);
 }
 
+function contaVotsTotals(){
+    let array=clonaArray()
+    let suma=0;
+    array.map(colegi=>{
+        suma=0;
+        suma+=colegi.PSOE
+        suma+=colegi.PP
+        suma+=colegi.IU
+        suma+=colegi.Ciudadanos
+        suma+=colegi.Podemos
+        colegi.totalPunts=suma;
+    })
+}
 
 function llistaMayorCandidatos(){
-    let cadasd ="a : b";
-    let cosita=cadasd.split(':')
-    alert(cosita[1])
+    
     let arrayClonat=clonaArray();
     let psoe=0;
     let pp=0;
     let iu=0;
+    let ciu=0;
+    let po=0;
 
     arrayClonat.map(obj=>{
         psoe+=parseInt(obj.PSOE)
         pp+=parseInt(obj.PP)
         iu+=parseInt(obj.IU)
+        ciu+=parseInt(obj.Ciudadanos)
+        po+=parseInt(obj.Podemos)
     })
     let prova=new Array();
-    prova.push("PSOE: "+psoe)
-    prova.push("PP: "+pp)
-    prova.push("IU: "+iu)
-    prova.sort((a,b)=>a>b);
-    alert(prova[0]);
+    prova.push("PSOE : "+psoe)
+    prova.push("PP : "+pp)
+    prova.push("IU : "+iu)
+    prova.push("Ciudadanos : "+ciu)
+    prova.push("Podemos : "+po)
+    prova.sort((a,b)=>{
+        let x=a.split(':');
+        let y=b.split(':');
+
+        return x[1]<y[1]
+    });
+    alert(prova);
+}
+
+
+function llistaMayorColegios(){
+    contaVotsTotals();
+    let array=clonaArray();
+    array.sort((a,b)=>a.totalPunts<b.totalPunts)
+    alert(array);
+    
 }
 //JQuery
 $(document).ready(function () {
@@ -345,6 +376,9 @@ $(document).ready(function () {
     })
      $('.ordenaMayorCandidatos').click(function (){
         llistaMayorCandidatos();
+    })
+     $('.ordenaMayorColegis').click(function (){
+        llistaMayorColegios();
     })
 
 })
