@@ -1,74 +1,158 @@
+//Variables generales para guardar objetos
+let piezasNegras=new Array()
+let piezasBlancas=new Array()
+let ultimaPieza;
+
+
 
 //Clases para la creacion de los objetos
 
 
 //Clase peon
 function Peon(color,pos){
-    this.name="peon"
+    this.name="peon "+color
     this.color=color;  
     this.pos=pos;
     this.muerto=false;
-    this.img="/"
+
+    if(color=="negro"){
+        this.img="img/peonNegro.tiff"
+    }else{
+        this.img="img/peonBlanco.tiff"
+    }
+    
 }
 
 Peon.prototype.toString=function (){
     return this.name+" "+this.color
 }
 Peon.prototype.movimiento=function() {
-    alert("movimiento del peon")
-}
+    
 
+    if(ultimaPieza==this){
+        alert("asdsad")
+    }else{
+        if(ultimaPieza==null){
+            alert("es null")
+            ultimaPieza=this;
+        }else{
+            alert("no es null")
+        }
+    }
+    console.log("movimiento del peon")
+}
 
 
 
 //Clase caballo
 function Caballo(color,pos){
-    this.color=color;
+    this.name="caballo "+color
+    this.color=color;  
     this.pos=pos;
     this.muerto=false;
+
+
+    if(color=="negro"){
+        this.img="img/caballoNegro.tiff"
+    }else{
+        this.img="img/caballoBlanco.tiff"
+    }
 }
-
-
+Caballo.prototype.toString=function (){
+    return this.name+" "+this.color
+}
+Caballo.prototype.movimiento=function () { 
+    console.log("movimiento del cabasho")
+ }
 
 
 //Clase alfil
 function Alfil(color,pos){
-    this.color=color;
+    this.name="caballo "+color
+    this.color=color;  
     this.pos=pos;
     this.muerto=false;
-}
 
+
+    if(color=="negro"){
+        this.img="img/alfilNegro.tiff"
+    }else{
+        this.img="img/alfilBlanco.tiff"
+    }
+}
+Alfil.prototype.toString=function (){
+    return this.name+" "+this.color
+}
+Alfil.prototype.movimiento=function () { 
+    console.log("movimiento del alfil")
+ }
 
 
 
 
 function Rei(color,pos){
-    this.color=color;
+    this.name="rei "+color
+    this.color=color;  
     this.pos=pos;
     this.muerto=false;
+
+
+    if(color=="negro"){
+        this.img="img/reiNegro.tiff"
+    }else{
+        this.img="img/reiBlanco.tiff"
+    }
 }
+Rei.prototype.toString=function (){
+    return this.name+" "+this.color
+}
+Rei.prototype.movimiento=function () { 
+    console.log("movimiento del rei")
+ }
+
+
 
 function Reina(color,pos){
-    this.color=color;
+    this.name="caballo "+color
+    this.color=color;  
     this.pos=pos;
     this.muerto=false;
+
+
+    if(color=="negro"){
+        this.img="img/reinaNegro.tiff"
+    }else{
+        this.img="img/reinaBlanco.tiff"
+    }
 }
+Reina.prototype.toString=function (){
+    return this.name+" "+this.color
+}
+Reina.prototype.movimiento=function () { 
+
+    console.log("movimiento de la reina")
+ }
+
 
 function Torre(color,pos){
-    this.color=color;
+    this.name="caballo "+color
+    this.color=color;  
     this.pos=pos;
     this.muerto=false;
+
+
+    if(color=="negro"){
+        this.img="img/torreNegro.tiff"
+    }else{
+        this.img="img/torreBlanco.tiff"
+    }
 }
-
-
-
-
-
-//Variables generales para guardar objetos
-let piezasNegras=new Array()
-let piezasBlancas=new Array()
-
-
+Torre.prototype.toString=function (){
+    return this.name+" "+this.color
+}
+Torre.prototype.movimiento=function () { 
+    console.log("movimiento de la torre")
+ }
 
 
 
@@ -86,15 +170,17 @@ function crearTablero(){
             div.className=j+""+i
             if(j%2!=0){
                 if(i%2!=0){
-                    div.style="background:#000000;height:100px;width:100px;"
+                    div.style="background:#ffffff;height:60px;width:60px;"
                 }else{
-                    div.style="background:#ffffff;height:100px;width:100px;"
+                    
+                    div.style="background:#837490;height:60px;width:60px;"
                 }  
             }else{
                 if(i%2==0){
-                    div.style="background:#000000;height:100px;width:100px;"
+                    div.style="background:#ffffff;height:60px;width:60px;"
                 }else{
-                    div.style="background:#ffffff;height:100px;width:100px;"
+                    
+                    div.style="background:#837490;height:60px;width:60px;"
                 }
             }  
             td.appendChild(div)
@@ -105,27 +191,58 @@ function crearTablero(){
     $(".tablero").append(table);  
 }
 
-function crearPiezas(){
-    //Piezas blancas
-    //Peones
-    for(let i=7;i<8;i++){
-        for(let j=1;j<9;j++){
-            piezasBlancas.push(new Peon("blanco",i+""+j))
-        }
-    }
 
-    //Piezas negras
+
+function crearPiezas(){
     //Peones
-    for(let i=1;i<2;i++){
         for(let j=1;j<9;j++){
-            piezasNegras.push(new Peon("negro",i+""+j))
+            //Peones blancos
+            piezasBlancas.push(new Peon("blanco","2"+j))
+            //Peones negros
+            piezasNegras.push(new Peon("negro","7"+j))
         }
-    }
+
+        piezasBlancas.push(
+            new Torre("blanco","11"),
+            new Torre("blanco","18"),
+            new Caballo("blanco","12"),
+            new Caballo("blanco","17"),
+            new Alfil("blanco","13"),
+            new Alfil("blanco","16"),
+            new Rei("blanco","15"),
+            new Reina("blanco","14")
+            )
+
+        piezasNegras.push(
+            new Torre("negro","71"),
+            new Torre("negro","78"),
+            new Caballo("negro","72"),
+            new Caballo("negro","77"),
+            new Alfil("negro","73"),
+            new Alfil("negro","76"),
+            new Rei("negro","74"),
+            new Reina("negro","75")
+            )
+
+        //Colocacion de las piezas
+        piezasBlancas.map(pieza=>{
+            let img=document.createElement('img')
+            img.src=pieza.img
+            img.addEventListener('click',pieza.movimiento)
+            img.width=60            
+            $("."+pieza.pos).append(img)
+        })
+
+        piezasNegras.map(pieza=>{
+            let img=document.createElement('img')
+            img.src=pieza.img
+            img.width=60
+            img.addEventListener('click',pieza.movimiento)            
+            $("."+pieza.pos).append(img)
+        })
+    
 }
 
 //GAMECORE
-crearPiezas()
 crearTablero()
-
-//alert(piezasBlancas.length)
-//alert(piezasNegras.length)
+crearPiezas()
