@@ -23,6 +23,35 @@ function Peon(color, pos) {
 Peon.prototype.toString = function() {
   return this.name + " " + this.color;
 };
+
+Peon.prototype.sombrear=function () { 
+
+  if(this.firstMove){
+    this.firstMove=false;
+    let sombreado;
+    let sombreado2
+    
+    if(this.color=="negro"){
+      sombreado=this.pos-20
+      sombreado2=this.pos-10
+    }else{
+      sombreado=this.pos+20
+      sombreado2=this.pos+10
+    }
+
+    $('.'+sombreado).parent().css("background-color","red")
+      $('.'+sombreado2).parent().css("background-color","red")
+
+      $('.'+sombreado).click(function (){
+        alert(sombreado)
+      })
+
+      $('.'+sombreado2).click(function (){
+        alert(sombreado)
+      })
+  }
+ }
+
 Peon.prototype.movimiento = function() {
   ultimaPieza = this;
   let posicion = this.pos;
@@ -76,99 +105,6 @@ Peon.prototype.movimiento = function() {
     
     $("." + this.pos).append(img);
   }
-
-  /*
-  if (ultimaPieza == this) {
-    alert("has seleccionado la misma pieza");
-  } else {
-    if (ultimaPieza == null) {
-      //alert("has seleccionado esta pieza");
-      ultimaPieza = this;
-      let posicion = this.pos;
-
-
-      if (this.firstMove) {
-        $('.'+this.pos).find("img").remove()
-        
-        if(this.color=="negro"){
-            this.pos = parseInt(this.pos)-20;
-        }else{
-            this.pos = parseInt(this.pos)+20;
-        }
-        
-
-        let img = document.createElement("img");
-        img.src = this.img;
-        img.width = 60;
-
-        $(img).click(function() {
-          ultimaPieza.movimiento();
-        });
-        $("." + this.pos).append(img);
-
-      }else{
-        $('.'+this.pos).find("img").remove()
-      
-        if(this.color=="negro"){
-            this.pos = parseInt(this.pos)-10;
-        }else{
-            this.pos = parseInt(this.pos)+10;
-        }
-
-        let img = document.createElement("img");
-        img.src = this.img;
-        img.width = 60;
-
-        $(img).click(function() {
-          ultimaPieza.movimiento();
-        });
-        $("." + this.pos).append(img);
-      }
-
-
-    } else {
-      //alert("has seleccionado otra pieza");
-      ultimaPieza = this;
-
-      if (this.firstMove) {
-        $('.'+this.pos).find("img").remove()
-
-        if(this.color=="negro"){
-            this.pos = parseInt(this.pos)-20;
-        }else{
-            this.pos = parseInt(this.pos)+20;
-        }
-
-        let img = document.createElement("img");
-        img.src = this.img;
-        img.width = 60;
-
-        $(img).click(function() {
-          ultimaPieza.movimiento();
-        });
-        $("." + this.pos).append(img);
-
-      }else{
-          alert(this.pos)
-        $('.'+this.pos).find("img").remove()
-      
-        if(this.color=="negro"){
-            this.pos = parseInt(this.pos)-10;
-        }else{
-            this.pos = parseInt(this.pos)+10;
-        }
-
-        let img = document.createElement("img");
-        img.src = this.img;
-        img.width = 60;
-
-        $(img).click(function() {
-          ultimaPieza.movimiento();
-        });
-        $("." + this.pos).append(img);
-      }
-    }
-  }*/
   console.log("movimiento del peon");
 };
 
@@ -275,8 +211,12 @@ function crearTablero() {
   table.border = "1px solid black";
   for (let j = 1; j < 9; j++) {
     let tr = document.createElement("tr");
+    
     for (let i = 1; i < 9; i++) {
       let td = document.createElement("td");
+      td.width=64
+      td.height=64
+      td.align="center"
       let div = document.createElement("div");
       div.id = j + "" + i;
       div.className = j + "" + i;
@@ -337,7 +277,7 @@ function crearPiezas() {
     let img = document.createElement("img");
     img.src = pieza.img;
     $(img).click(function() {
-      pieza.movimiento();
+      pieza.sombrear();
     });
     img.width = 60;
     $("." + pieza.pos).append(img);
@@ -349,7 +289,7 @@ function crearPiezas() {
     img.width = 60;
 
     $(img).click(function() {
-      pieza.movimiento();
+      pieza.sombrear();
     });
     $("." + pieza.pos).append(img);
   });
