@@ -1,17 +1,17 @@
 //Variables generales para guardar objetos
-let piezasNegras = new Array();
-let piezasBlancas = new Array();
+let arrayPiezas = new Array();
+
 let ultimaPieza;
 
 //Clases para la creacion de los objetos
 
 //Clase peon
-function Peon(color, pos) {
+function Peon(color, pos,first) {
   this.name = "peon " + color;
   this.color = color;
   this.pos = pos;
   this.muerto = false;
-  this.firstMove = true;
+  this.firstMove = first || true;
 
   if (color == "negro") {
     this.img = "img/peonNegro.png";
@@ -24,88 +24,110 @@ Peon.prototype.toString = function() {
   return this.name + " " + this.color;
 };
 
-Peon.prototype.sombrear=function () { 
-
-  if(this.firstMove){
-    this.firstMove=false;
-    let sombreado;
-    let sombreado2
-    
-    if(this.color=="negro"){
-      sombreado=this.pos-20
-      sombreado2=this.pos-10
-    }else{
-      sombreado=this.pos+20
-      sombreado2=this.pos+10
+Peon.prototype.sombrear = function() {
+  
+  if(ultimaPieza!=null){
+    if (ultimaPieza != this) {
+        $('td').each(function(){
+          $(this).css("background-color", "white");
+        })
+        ultimaPieza = this;
     }
-
-    $('.'+sombreado).parent().css("background-color","red")
-      $('.'+sombreado2).parent().css("background-color","red")
-
-      $('.'+sombreado).click(function (){
-        alert(sombreado)
-      })
-
-      $('.'+sombreado2).click(function (){
-        alert(sombreado)
-      })
   }
- }
-
-Peon.prototype.movimiento = function() {
-  ultimaPieza = this;
-  let posicion = this.pos;
-
+ 
+ 
   if (this.firstMove) {
-    this.firstMove = false;
-
-    $(`.`+this.pos)
-      .find("img")
-      .remove();
+    ultimaPieza=this
+    
+    let sombreado = new Array();
 
     if (this.color == "negro") {
-      this.pos = parseInt(this.pos) - 20;
+      sombreado.push(this.pos - 20);
+      sombreado.push(this.pos - 10);
     } else {
-      this.pos = parseInt(this.pos) + 20;
+      sombreado.push(parseInt(this.pos) + 20);
+      sombreado.push(parseInt(this.pos) + 10);
     }
 
-    let img = document.createElement("img");
-    img.src = this.img;
-    img.width = 60;
-    let esteObjeto=this;
-      $(img).click(function() {
-        alert(esteObjeto.pos)
-        esteObjeto.movimiento()
-       
+
+    if($("." + sombreado[1]).find('img').length<1){
+      $("." + sombreado[1]).parent().css("background-color", "red");
+  
+      $("." + sombreado[1]).click(function() {
+        $("." + sombreado[0]).parent().css("background-color", "white");
+        $("." + sombreado[1]).parent().css("background-color", "white");
+        ultimaPieza.firstMove = false;
+        ultimaPieza.movimiento(sombreado[1]);
+        
+        $("." + sombreado[0]).off();
+        $("." + sombreado[1]).off();
       });
+
+
+      if($("." + sombreado[0]).find('img').length<1){
+        $("." + sombreado[0]).parent().css("background-color", "red");
+        $("." + sombreado[0]).click(function() {
+          $("." + sombreado[0]).parent().css("background-color", "white");
+          $("." + sombreado[1]).parent().css("background-color", "white");
+          ultimaPieza.firstMove = false;
+          ultimaPieza.movimiento(sombreado[0]);
+          
+          $("." + sombreado[0]).off();
+          $("." + sombreado[1]).off();
+        });
+      }
+
+    }
     
-    $("." + this.pos).append(img);
   }else{
-    $(`.`+this.pos)
-      .find("img")
-      .remove();
+    ultimaPieza=this
+    
+    let sombreado = new Array();
 
     if (this.color == "negro") {
-      this.pos = parseInt(this.pos) - 10;
+ 
+      sombreado.push(this.pos - 10);
     } else {
-      this.pos = parseInt(this.pos) + 10;
+   
+      sombreado.push(parseInt(this.pos) + 10);
     }
 
-    let img = document.createElement("img");
-    img.src = this.img;
-    img.width = 60;
+    if( $("." + sombreado[0]).find('img').length<1){
+      
+          $("." + sombreado[0])
+          .parent()
+          .css("background-color", "red");
 
-    
-    let esteObjeto=this;
-    $(img).click(function() {
-      alert(esteObjeto.pos)
-      esteObjeto.movimiento()
-     
-    });
-    
-    $("." + this.pos).append(img);
+
+          $("." + sombreado[0]).click(function() {
+            $("." + sombreado[0])
+              .parent()
+              .css("background-color", "white");
+          
+            ultimaPieza.movimiento(sombreado[0]);
+            $("." + sombreado[0]).off();
+          
+          });
+    }
+
   }
-  console.log("movimiento del peon");
+};
+
+Peon.prototype.movimiento = function(pos) {
+  let esteObjeto=this;
+  $("." + this.pos)
+    .find("img")
+    .remove();
+  this.pos = pos;
+  let img = document.createElement("img");
+  img.src = this.img;
+  img.width = 60;
+  $(img).click(function(){
+    esteObjeto.sombrear()
+  })
+  $("." + this.pos).append(img);
+
+  ultimaPieza = null;
 };
 
 //Clase caballo
@@ -211,12 +233,12 @@ function crearTablero() {
   table.border = "1px solid black";
   for (let j = 1; j < 9; j++) {
     let tr = document.createElement("tr");
-    
+
     for (let i = 1; i < 9; i++) {
       let td = document.createElement("td");
-      td.width=64
-      td.height=64
-      td.align="center"
+      td.width = 64;
+      td.height = 64;
+      td.align = "center";
       let div = document.createElement("div");
       div.id = j + "" + i;
       div.className = j + "" + i;
@@ -245,12 +267,12 @@ function crearPiezas() {
   //Peones
   for (let j = 1; j < 9; j++) {
     //Peones blancos
-    piezasBlancas.push(new Peon("blanco", "2" + j));
+    arrayPiezas.push(new Peon("blanco", "2" + j));
     //Peones negros
-    piezasNegras.push(new Peon("negro", "7" + j));
+    arrayPiezas.push(new Peon("negro", "7" + j));
   }
 
-  piezasBlancas.push(
+  arrayPiezas.push(
     new Torre("blanco", "11"),
     new Torre("blanco", "18"),
     new Caballo("blanco", "12"),
@@ -261,7 +283,7 @@ function crearPiezas() {
     new Reina("blanco", "14")
   );
 
-  piezasNegras.push(
+  arrayPiezas.push(
     new Torre("negro", "81"),
     new Torre("negro", "88"),
     new Caballo("negro", "82"),
@@ -273,24 +295,13 @@ function crearPiezas() {
   );
 
   //Colocacion de las piezas
-  piezasBlancas.map(pieza => {
+  arrayPiezas.map(pieza => {
     let img = document.createElement("img");
     img.src = pieza.img;
     $(img).click(function() {
       pieza.sombrear();
     });
     img.width = 60;
-    $("." + pieza.pos).append(img);
-  });
-
-  piezasNegras.map(pieza => {
-    let img = document.createElement("img");
-    img.src = pieza.img;
-    img.width = 60;
-
-    $(img).click(function() {
-      pieza.sombrear();
-    });
     $("." + pieza.pos).append(img);
   });
 }
