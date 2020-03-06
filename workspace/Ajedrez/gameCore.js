@@ -146,8 +146,55 @@ function Caballo(color, pos) {
 Caballo.prototype.toString = function() {
   return this.name + " " + this.color;
 };
-Caballo.prototype.movimiento = function() {
-  console.log("movimiento del cabasho");
+
+Caballo.prototype.sombrear=function () { 
+borrarSombreado()
+  let sombreado=new Array()
+    sombreado.push(parseInt(this.pos)-21)
+    sombreado.push(parseInt(this.pos)-19)
+    sombreado.push(parseInt(this.pos)-12)
+    sombreado.push(parseInt(this.pos)-8)
+    sombreado.push(parseInt(this.pos)+21)
+    sombreado.push(parseInt(this.pos)+19)
+    sombreado.push(parseInt(this.pos)+12)
+    sombreado.push(parseInt(this.pos)+8)
+
+  let estaPieza=this
+  sombreado.map(sombra=>{
+    
+    
+    
+    if($('.'+sombra).find('img').length<1){
+      $("." +sombra).parent().css("background-color", "red");
+      $("."+sombra).click(function(){
+        borrarSombreado()
+        estaPieza.movimiento(sombra)
+        $('div').each(function(){
+          $(this).off()
+        })
+      })
+      console.log("hi ha una imatge")
+    }
+    
+  })
+ }
+
+Caballo.prototype.movimiento = function(pos) {
+  let esteObjeto=this;
+  $("." + this.pos)
+    .find("img")
+    .remove();
+  this.pos = pos;
+  let img = document.createElement("img");
+  img.src = this.img;
+  img.width = 60;
+  $(img).click(function(){
+    esteObjeto.sombrear()
+  })
+  $("." + this.pos).append(img);
+
+  ultimaPieza = null;
+
 };
 
 //Clase alfil
@@ -228,6 +275,13 @@ Torre.prototype.movimiento = function() {
 };
 
 //Funciones generales para el funcionamiento del ajedrez
+
+function borrarSombreado(){
+  $('td').each(function(){
+    $(this).css("background-color", "white");
+  })
+}
+
 function crearTablero() {
   let table = document.createElement("table");
   table.border = "1px solid black";
@@ -302,6 +356,7 @@ function crearPiezas() {
       pieza.sombrear();
     });
     img.width = 60;
+    img.alt=pieza.color
     $("." + pieza.pos).append(img);
   });
 }
