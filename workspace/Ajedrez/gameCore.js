@@ -25,7 +25,7 @@ Peon.prototype.toString = function() {
 };
 
 Peon.prototype.sombrear = function() {
-  
+  borrarSombreado()
   if(ultimaPieza!=null){
     if (ultimaPieza != this) {
         $('td').each(function(){
@@ -161,9 +161,6 @@ borrarSombreado()
 
   let estaPieza=this
   sombreado.map(sombra=>{
-    
-    
-    
     if($('.'+sombra).find('img').length<1){
       $("." +sombra).parent().css("background-color", "red");
       $("."+sombra).click(function(){
@@ -175,7 +172,6 @@ borrarSombreado()
       })
       console.log("hi ha una imatge")
     }
-    
   })
  }
 
@@ -213,9 +209,128 @@ function Alfil(color, pos) {
 Alfil.prototype.toString = function() {
   return this.name + " " + this.color;
 };
-Alfil.prototype.movimiento = function() {
-  console.log("movimiento del alfil");
+Alfil.prototype.sombrear=function () { 
+  borrarSombreado()
+  let sombreado=new Array()
+  let calculo=0;
+
+  //Movimiento en diagonal arriba derecha
+  let imagen=false;
+  let i=1;
+  do{
+    calculo=parseInt(this.pos)-(i+""+i)
+    if($("#"+calculo).find("img").length<1){
+      sombreado.push(parseInt(this.pos)-(i+""+i))
+    }else{
+      imagen=true;
+      console.log("hay una imagen en medio")
+    }
+    i++
+  }while(i<8 && !imagen)
+
+
+//Movimiento en diagonal arriba izquierda
+  imagen=false;
+  i=0;
+  do{
+    calculo=parseInt(this.pos)-(i+""+9-i)
+
+    if(calculo.toString()[1]!="8"){
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+        imagen=true;
+        console.log("hay una imagen en medio")
+      }
+    }else if(calculo.toString()[1]=="8"){
+
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+        console.log("hay una imagen en medio")
+      }
+      imagen=true;
+    }
+    i++
+  }while(i<8 && !imagen)
+
+
+  //Movimiento en diagonal abajo izquierda
+  imagen=false;
+  i=0;
+  do{
+    calculo=parseInt(this.pos)+parseInt(i+""+9-i)
+
+    if(calculo.toString()[1]!="8"){
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+        imagen=true;
+        console.log("hay una imagen en medio")
+      }
+    }else if(calculo.toString()[1]=="8"){
+
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+        console.log("hay una imagen en medio")
+      }
+      imagen=true;
+    }
+    i++
+  }while(i<8 && !imagen)
+
+
+  //Movimiento en diagonal abajo derecha
+   imagen=false;
+   i=1;
+  do{
+    calculo=parseInt(this.pos)+parseInt(i+""+i)
+    console.log(calculo)
+    if($("#"+calculo).find("img").length<1){
+      sombreado.push(calculo)
+    }else{
+      imagen=true;
+      console.log("hay una imagen en medio")
+    }
+    i++
+  }while(i<8 && !imagen)
+
+  let estaPieza=this
+  sombreado.map(sombra=>{
+    if($('.'+sombra).find('img').length<1){
+      $("." +sombra).parent().css("background-color", "red");
+      $("."+sombra).click(function(){
+        borrarSombreado()
+        estaPieza.movimiento(sombra)
+        $('div').each(function(){
+          $(this).off()
+        })
+      })
+      console.log("hi ha una imatge")
+    }
+  })
+ }
+Alfil.prototype.movimiento = function(pos) {
+  console.log("ha entrado con la pos: "+pos)
+  let esteObjeto=this;
+  $("." + this.pos)
+    .find("img")
+    .remove();
+  this.pos = pos;
+  let img = document.createElement("img");
+  img.src = this.img;
+  img.width = 60;
+  $(img).click(function(){
+    esteObjeto.sombrear()
+  })
+  $("." + this.pos).append(img);
+
+  ultimaPieza = null;
+
 };
+
+
 
 function Rei(color, pos) {
   this.name = "rei " + color;
