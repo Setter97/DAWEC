@@ -29,107 +29,88 @@ Peon.prototype.getColor = function() {
 
 Peon.prototype.sombrear = function() {
   borrarSombreado()
-  if(ultimaPieza!=null){
-    if (ultimaPieza != this) {
-        $('td').each(function(){
-          $(this).css("background-color", "white");
-        })
-        ultimaPieza = this;
-    }
-  }
- 
- 
-  if (this.firstMove) {
-    ultimaPieza=this
+  ultimaPieza=this
+  let sombreado=new Array()
+  let sombreado2=new Array()
+  if(this.firstMove){
     
-    let sombreado = new Array();
-
-    if (this.color == "negro") {
-      sombreado.push(this.pos - 20);
-      sombreado.push(this.pos - 10);
-    } else {
-      sombreado.push(parseInt(this.pos) + 20);
-      sombreado.push(parseInt(this.pos) + 10);
+    if(this.color=="blanco"){
+      sombreado.push(parseInt(this.pos)+10)
+      sombreado.push(parseInt(this.pos)+20)
+      sombreado2.push(parseInt(this.pos)+11)
+      sombreado2.push(parseInt(this.pos)+9)
+    }else{
+      sombreado.push(parseInt(this.pos)-10)
+      sombreado.push(parseInt(this.pos)-20)
+      sombreado2.push(parseInt(this.pos)-11)
+      sombreado2.push(parseInt(this.pos)-9)
     }
-
-
-    if($("." + sombreado[1]).find('img').length<1){
-      $("." + sombreado[1]).parent().css("background-color", "red");
-  
-      $("." + sombreado[1]).click(function() {
-        $("." + sombreado[0]).parent().css("background-color", "white");
-        $("." + sombreado[1]).parent().css("background-color", "white");
-        ultimaPieza.firstMove = false;
-        ultimaPieza.movimiento(sombreado[1]);
-        
-        $("." + sombreado[0]).off();
-        $("." + sombreado[1]).off();
-      });
-
-
-      if($("." + sombreado[0]).find('img').length<1){
-        $("." + sombreado[0]).parent().css("background-color", "red");
-        $("." + sombreado[0]).click(function() {
-          $("." + sombreado[0]).parent().css("background-color", "white");
-          $("." + sombreado[1]).parent().css("background-color", "white");
-          ultimaPieza.firstMove = false;
-          ultimaPieza.movimiento(sombreado[0]);
-          
-          $("." + sombreado[0]).off();
-          $("." + sombreado[1]).off();
-        });
-      }
-
-    }
-    
-  }else{
-    ultimaPieza=this
-    
-    let sombreado = new Array();
-
-    if (this.color == "negro") {
- 
-      sombreado.push(this.pos - 10);
-    } else {
    
-      sombreado.push(parseInt(this.pos) + 10);
+  }else{
+    if(this.color=="blanco"){
+      sombreado.push(parseInt(this.pos)+10)
+      sombreado2.push(parseInt(this.pos)+11)
+      sombreado2.push(parseInt(this.pos)+9)
+    }else{
+      sombreado.push(parseInt(this.pos)-10)
+      sombreado2.push(parseInt(this.pos)-11)
+      sombreado2.push(parseInt(this.pos)-9)
     }
-
-    if( $("." + sombreado[0]).find('img').length<1){
-      
-          $("." + sombreado[0])
-          .parent()
-          .css("background-color", "red");
-
-
-          $("." + sombreado[0]).click(function() {
-            $("." + sombreado[0])
-              .parent()
-              .css("background-color", "white");
-          
-            ultimaPieza.movimiento(sombreado[0]);
-            $("." + sombreado[0]).off();
-          
-          });
-    }
-
   }
-};
+
+  let atura=false;
+  sombreado.map(sombra=>{
+    if($('.'+sombra).find('img').length<1 && !atura){
+      $("." +sombra).parent().css("background-color", "red");
+      $("."+sombra).click(function(){
+        borrarSombreado()
+        ultimaPieza.movimiento(sombra)
+        $('div').each(function(){
+          $(this).off()
+        })
+      })
+    }else{
+      atura=true;
+    }
+  })
+
+  sombreado2.map(sombra=>{
+    if($('.'+sombra).find('img').length==1){
+     if($("#"+sombra).children("img").attr("alt")!=ultimaPieza.color)
+     {$("." +sombra).parent().css("background-color", "red");
+     $("."+sombra).click(function(){
+       borrarSombreado()
+       ultimaPieza.movimiento(sombra)
+       $('div').each(function(){
+         $(this).off()
+       })
+     })}
+    }
+  })
+
+}
 
 Peon.prototype.movimiento = function(pos) {
-  let esteObjeto=this;
-  $("." + this.pos)
-    .find("img")
-    .remove();
-  this.pos = pos;
+  this.firstMove=false;
+  ultimapieza=this;
+  this.pos=pos;
+
+  arrayPiezas.map(pieza=>{
+    if(pieza!=this){
+      if(pieza.pos==this.pos){
+        pieza.muerto=true;
+      }
+    }
+  })
+
   let img = document.createElement("img");
   img.src = this.img;
   img.width = 60;
   $(img).click(function(){
-    esteObjeto.sombrear()
+    ultimaPieza.sombrear()
   })
   $("." + this.pos).append(img);
-  finTurno(ultimaPieza)
+  finTurno(this)
   ultimaPieza = null;
   
 };
@@ -166,6 +147,7 @@ borrarSombreado()
     sombreado.push(parseInt(this.pos)+8)
 
   ultimaPieza=this
+
   sombreado.map(sombra=>{
     if($('.'+sombra).find('img').length<1){
       $("." +sombra).parent().css("background-color", "red");
@@ -176,17 +158,32 @@ borrarSombreado()
           $(this).off()
         })
       })
-      console.log("hi ha una imatge")
+    }else{
+      if($("#"+sombra).children("img").attr("alt")!=ultimaPieza.color){
+        $("." +sombra).parent().css("background-color", "red");
+        $("."+sombra).click(function(){
+          borrarSombreado()
+          ultimaPieza.movimiento(sombra)
+          $('div').each(function(){
+            $(this).off()
+          })
+        })
+      }
     }
   })
+
  }
 
 Caballo.prototype.movimiento = function(pos) {
   ultimaPieza=this;
-  $("." + this.pos)
-    .find("img")
-    .remove();
-  this.pos = pos;
+  this.pos=pos
+  arrayPiezas.map(pieza=>{
+    if(pieza!=this){
+      if(pieza.pos==this.pos){
+        pieza.muerto=true;
+      }
+    }
+  })
   let img = document.createElement("img");
   img.src = this.img;
   img.width = 60;
@@ -222,22 +219,26 @@ Alfil.prototype.sombrear=function () {
   let sombreado=new Array()
   let calculo=0;
   ultimaPieza=this
-  //Movimiento en diagonal arriba derecha
+  //Movimiento en diagonal arriba izquierda
   let imagen=false;
   let i=1;
   do{
     calculo=parseInt(this.pos)-(i+""+i)
-    if($("#"+calculo).find("img").length<1){
-      sombreado.push(parseInt(this.pos)-(i+""+i))
-    }else{
-      imagen=true;
-      console.log("hay una imagen en medio")
+    if(calculo.toString().includes("0")){imagen=true}
+    else{
+      console.log(calculo)
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(this.pos)-(i+""+i))
+      }else{
+        imagen=true;
+      }
     }
+ 
     i++
   }while(i<8 && !imagen)
 
 
-//Movimiento en diagonal arriba izquierda
+//Movimiento en diagonal arriba derecha
   imagen=false;
   i=0;
   do{
@@ -248,14 +249,12 @@ Alfil.prototype.sombrear=function () {
         sombreado.push(parseInt(calculo))
       }else{
         imagen=true;
-        //console.log("hay una imagen en medio")
+        sombreado.push(parseInt(calculo))
       }
     }else if(calculo.toString()[1]=="8"){
 
       if($("#"+calculo).find("img").length<1){
         sombreado.push(parseInt(calculo))
-      }else{
-        //console.log("hay una imagen en medio")
       }
       imagen=true;
     }
@@ -268,7 +267,7 @@ Alfil.prototype.sombrear=function () {
   i=0;
   do{
     calculo=parseInt(this.pos)+parseInt(i+""+9-i)
-    console.log(calculo)
+   
     if(calculo.toString()[1]=="9")imagen=true
     if(calculo.toString()[1]!="8"){
       if($("#"+calculo).find("img").length<1){
@@ -282,8 +281,7 @@ Alfil.prototype.sombrear=function () {
       if($("#"+calculo).find("img").length<1){
         sombreado.push(parseInt(calculo))
       }else{
-        //AKA MATAR
-        //console.log("hay una imagen en medio")
+        sombreado.push(calculo)
       }
       imagen=true;
     }
@@ -300,7 +298,7 @@ Alfil.prototype.sombrear=function () {
     if($("#"+calculo).find("img").length<1){
       sombreado.push(calculo)
     }else{
-      //AKA MATAR
+      sombreado.push(calculo)
       imagen=true;
       //console.log("hay una imagen en medio")
     }
@@ -319,17 +317,31 @@ Alfil.prototype.sombrear=function () {
         })
       })
      // console.log("hi ha una imatge")
+    }else{
+      if($("#"+sombra).children("img").attr("alt")!=ultimaPieza.color){
+        $("." +sombra).parent().css("background-color", "red");
+        $("."+sombra).click(function(){
+          borrarSombreado()
+          ultimaPieza.movimiento(sombra)
+          $('div').each(function(){
+            $(this).off()
+          })
+        })
+      }
     }
   })
  }
 
 Alfil.prototype.movimiento = function(pos) {
-  console.log("ha entrado con la pos: "+pos)
   ultimaPieza=this;
-  $("." + this.pos)
-    .find("img")
-    .remove();
-  this.pos = pos;
+  this.pos=pos
+  arrayPiezas.map(pieza=>{
+    if(pieza!=this){
+      if(pieza.pos==this.pos){
+        pieza.muerto=true;
+      }
+    }
+  })
   let img = document.createElement("img");
   img.src = this.img;
   img.width = 60;
@@ -338,6 +350,7 @@ Alfil.prototype.movimiento = function(pos) {
   })
   $("." + this.pos).append(img);
   finTurno(ultimaPieza)
+  ultimaPieza = null;
 };
 
 
@@ -423,13 +436,188 @@ Reina.prototype.toString = function() {
 Reina.prototype.getColor = function() {
   return this.color;
 };
-Reina.prototype.movimiento = function() {
-  console.log("movimiento de la reina");
-};
+Reina.prototype.movimiento = function(pos) {
+  ultimaPieza=this;
+  $("." + this.pos)
+    .find("img")
+    .remove();
+  this.pos = pos;
+  let img = document.createElement("img");
+  img.src = this.img;
+  img.width = 60;
+  $(img).click(function(){
+    ultimaPieza.sombrear()
+  })
+  $("." + this.pos).append(img);
+  finTurno(ultimaPieza)
+  ultimaPieza = null;
+}
+
 
 Reina.prototype.sombrear = function() {
-  console.log("sombrear de la reina");
+  borrarSombreado()
+  let sombreado=new Array()
+  let calculo=0;
+  ultimaPieza=this
+  let pos=parseInt(this.pos);
+  //Movimiento en diagonal arriba derecha
+  let imagen=false;
+  let i=1;
+  do{
+    calculo=parseInt(this.pos)-(i+""+i)
+    if($("#"+calculo).find("img").length<1){
+      sombreado.push(parseInt(this.pos)-(i+""+i))
+    }else{
+      imagen=true;
+      console.log("hay una imagen en medio")
+    }
+    i++
+  }while(i<8 && !imagen)
+
+
+//Movimiento en diagonal arriba izquierda
+  imagen=false;
+  i=0;
+  do{
+    calculo=parseInt(this.pos)-(i+""+9-i)
+    if(calculo.toString()[1]!="8"){
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+        imagen=true;
+      
+      }
+    }else if(calculo.toString()[1]=="8"){
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+      }
+      imagen=true;
+    }
+    i++
+  }while(i<8 && !imagen)
+
+
+  //Movimiento en diagonal abajo izquierda
+  imagen=false;
+  i=0;
+  do{
+    calculo=parseInt(this.pos)+parseInt(i+""+9-i)
+    console.log(calculo)
+    if(calculo.toString()[1]=="9")imagen=true
+    if(calculo.toString()[1]!="8"){
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+        imagen=true;
+        //console.log("hay una imagen en medio")
+      }
+    }else if(calculo.toString()[1]=="8"){
+
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(parseInt(calculo))
+      }else{
+        //AKA MATAR
+        //console.log("hay una imagen en medio")
+      }
+      imagen=true;
+    }
+    i++
+  }while(i<8 && !imagen)
+
+
+  //Movimiento en diagonal abajo derecha
+   imagen=false;
+   i=1;
+  do{
+    calculo=parseInt(this.pos)+parseInt(i+""+i)
+    if($("#"+calculo).find("img").length<1){
+      sombreado.push(calculo)
+    }else{
+      imagen=true;
+    }
+    i++
+  }while(i<8 && !imagen)
+
+  i=1;
+  imagen=false;
+ //Movimiento hacia abajo
+ do{
+  calculo=pos+parseInt(i+"0")
+  console.log(calculo)
+  if(calculo.toString().length<3 && calculo<90){
+    if($("#"+calculo).find("img").length<1){
+      sombreado.push(calculo);
+    }else{
+      imagen=true;
+    }
+  }
+  i++
+}while(i<9 && !imagen)
+
+//movimiento hacia arriba
+imagen=false;
+i=1;
+do{
+ calculo=pos-parseInt(i+"0")
+  if(calculo!=this.pos){
+    if(calculo.toString().length>1 && calculo>9){
+      if($("#"+calculo).find("img").length<1){
+        sombreado.push(calculo);
+      }else{
+        imagen=true;
+      }
+    }
+  }
+  i++;
+}while(i<9 && !imagen)
+
+
+//Movimiento lateral dreta
+imagen=false;
+i=1;
+do{
+  calculo=this.pos+i;
+  if(calculo.toString().includes("9")){imagen=true;}
+  if(calculo!=this.pos){
+    if($("#"+calculo).find("img").length<1){ 
+      sombreado.push(calculo)
+    }
+    else{imagen=true}
+  }
+  i++;
+}while(i<9 && !imagen)
+
+//Movimiento lateral izquierdas
+imagen=false;
+i=1;
+do{
+  calculo=this.pos-i;
+  if(calculo.toString().includes("0")){imagen=true;}
+  if(calculo!=this.pos){
+    if($("#"+calculo).find("img").length<1){ 
+      sombreado.push(calculo)
+    }
+    else{imagen=true}
+  }
+  i++;
+}while(i<9 && !imagen)
+
+  
+  sombreado.map(sombra=>{
+    if($('.'+sombra).find('img').length<1){
+      $("." +sombra).parent().css("background-color", "red");
+      $("."+sombra).click(function(){
+        borrarSombreado()
+        ultimaPieza.movimiento(sombra)
+        $('div').each(function(){
+          $(this).off()
+        })
+      })
+    }
+  })
 };
+
 
 function Torre(color, pos) {
   this.name = "caballo " + color;
@@ -494,9 +682,7 @@ Torre.prototype.sombrear = function() {
   imagen=false;
   i=1;
   do{
-
    calculo=pos-parseInt(i+"0")
-
     if(calculo!=this.pos){
       if(calculo.toString().length>1 && calculo>9){
         if($("#"+calculo).find("img").length<1){
@@ -506,19 +692,17 @@ Torre.prototype.sombrear = function() {
         }
       }
     }
-    calculo=this.pos[0]+i;
-    sombreado.push(calculo)
     i++;
   }while(i<9 && !imagen)
-  //console.log(sombreado)
 
-  //Movimiento lateral WIP
+
+  //Movimiento lateral dreta
   imagen=false;
   i=1;
   do{
-    calculo=ultimaPieza.pos.toString()[0]+i;
+    calculo=this.pos+i;
+    if(calculo.toString().includes("9")){imagen=true;}
     if(calculo!=this.pos){
-      console.log("entro con la pos: "+calculo)
       if($("#"+calculo).find("img").length<1){ 
         sombreado.push(calculo)
       }
@@ -527,6 +711,22 @@ Torre.prototype.sombrear = function() {
     i++;
   }while(i<9 && !imagen)
 
+  //Movimiento lateral izquierdas
+  imagen=false;
+  i=1;
+  do{
+    calculo=this.pos-i;
+    if(calculo.toString().includes("0")){imagen=true;}
+    if(calculo!=this.pos){
+      if($("#"+calculo).find("img").length<1){ 
+        sombreado.push(calculo)
+      }
+      else{imagen=true}
+    }
+    i++;
+  }while(i<9 && !imagen)
+
+  //MAP
   sombreado.map(sombra=>{
     if($('.'+sombra).find('img').length<1){
       $("." +sombra).parent().css("background-color", "red");
@@ -546,11 +746,10 @@ Torre.prototype.sombrear = function() {
 //Funciones generales para el funcionamiento del ajedrez
 
 function finTurno(obj){
-  
-  console.log(ultimaPieza.getColor());
   $("img").each(function () { 
    $(this).off()
    })
+   
    if(ultimaPieza.getColor()=="negro"){
     recargarPiezas("blanco")
    }else{
@@ -562,6 +761,7 @@ function finTurno(obj){
 function borrarSombreado(){
   $('td').each(function(){
     $(this).css("background-color", "white");
+    $(this).children("div").off()
   })
 }
 
@@ -627,8 +827,8 @@ function crearPiezas() {
     new Caballo("negro", "87"),
     new Alfil("negro", "83"),
     new Alfil("negro", "86"),
-    new Rei("negro", "84"),
-    new Reina("negro", "85")
+    new Rei("negro", "85"),
+    new Reina("negro", "84")
   );
 
   //Colocacion de las piezas
@@ -649,19 +849,19 @@ function recargarPiezas(color) {
     $(this).remove()
   })
   arrayPiezas.map(pieza => {
-    let img = document.createElement("img");
-    img.src = pieza.img;
-    if(pieza.getColor()==color){
-      $(img).click(function() {
-        pieza.sombrear();
-        
-      });
+
+    if(!pieza.muerto){
+      let img = document.createElement("img");
+      img.src = pieza.img;
+      if(pieza.getColor()==color){
+        $(img).click(function() {
+          pieza.sombrear();
+        });
+      }
+        img.width = 60;
+        img.alt=pieza.color
+        $("." + pieza.pos).append(img);
     }
-      img.width = 60;
-      img.alt=pieza.color
-      $("." + pieza.pos).append(img);
-    
-    
   });
 }
 //GAMECORE
